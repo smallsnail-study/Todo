@@ -34,5 +34,7 @@
         <property name="mapperLocations" value="classpath:/mappers/**/*.xml"></property> <!--mappers폴더 밑에 폴더가 있어도 관계없도록 **와 모든xml을 의미하는 *.xml을 지정-->
     </bean>
 
-    <context:component-scan base-package="com.example.todo.config"/>
+    <mybatis:scan base-package="com.example.todo.mapper"></mybatis:scan>
+
+    <context:component-scan base-package="com.example.todo.config" />
 </beans>
