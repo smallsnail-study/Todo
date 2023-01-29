@@ -53,6 +53,9 @@ dependencies {
     implementation group: 'org.modelmapper',name: 'modelmapper',version: '3.0.0'
     implementation group: 'org.hibernate', name: 'hibernate-validator',version: '6.2.1.Final'
 
+    // https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator
+    implementation 'org.hibernate.validator:hibernate-validator:6.2.1.Final'
+
     testCompileOnly 'org.projectlombok:lombok:1.18.24'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
