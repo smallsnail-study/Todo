@@ -1,5 +1,7 @@
 package com.example.todo.controller;
 
+import com.example.todo.service.TodoService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +17,11 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/todo")
 @Log4j2
+@RequiredArgsConstructor
 public class TodoController {
+    
+    // 입력값 검증까지 확인 후 TodoService를 주입
+    private final TodoService todoService;
 
     @RequestMapping("/list")    // 최종경로 /todo/list
     public void list(Model model) {
@@ -52,6 +58,8 @@ public class TodoController {
         }
 
         log.info(todoDTO);
+        
+        todoService.register(todoDTO);  // TodoService의 기능을 호출하도록 구성
 
         return "redirect:/todo/list";   // POST방식으로 처리 후 /todo/list로 이동할 수 있도록한다.
     }
