@@ -8,4 +8,10 @@
         select now()
     </select>
 
+    <!--Todo등록기능 구현 MyBatis를 이용하면 ?대신에 #{} 파라미터를 처리
+    #{}부분은 PreparedStatement로 다시 변경되면서 ?로 처리되고, 주어진 객체의 get파라미터()을 호출한 결과를 적용하게된다.-->
+    <insert id="insert">
+        insert into tbl_todo(title, dueDate, writer) values (#{title}, #{dueDate}, #{writer})
+    </insert>
+
 </mapper>
