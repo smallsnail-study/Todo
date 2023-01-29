@@ -37,4 +37,5 @@
     <mybatis:scan base-package="com.example.todo.mapper"></mybatis:scan>
 
     <context:component-scan base-package="com.example.todo.config" />
+    <context:component-scan base-package="com.example.todo.service" />
 </beans>
