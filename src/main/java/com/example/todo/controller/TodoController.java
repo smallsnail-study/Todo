@@ -3,11 +3,14 @@ package com.example.todo.controller;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.todo.dto.TodoDTO;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/todo")
@@ -33,8 +36,21 @@ public class TodoController {
     }
 
     @PostMapping("/register")   // POST방식으로 Todo등록을 처리한다.
-    public String registerPOST(TodoDTO todoDTO, RedirectAttributes redirectAttributes) {     // 파라미터를 TodoDTO로 사용한다.(자동형변환)
+    public String registerPOST(@Valid TodoDTO todoDTO,  // @Valid (서버 입력값 검증)
+                               BindingResult bindingResult, // 서버입력값 검증을 위해 파라미터로 설정
+                               RedirectAttributes redirectAttributes) {     // 파라미터를 TodoDTO로 사용한다.(자동형변환)
+
         log.info("POST todo register..............");
+
+        if (bindingResult.hasErrors()) {    // 검증에 문제가 있다면 다시 입력화면으로 리다이렉트처리
+            log.info("has errors......");
+
+            // 처리과정에서 잘못된 결과는 RedirectAttributes의 addFlashAttribute()를 이용해 전달한다.
+            redirectAttributes.addFlashAttribute("errors",bindingResult.getAllErrors());
+
+            return "redirect:/todo/register";
+        }
+
         log.info(todoDTO);
 
         return "redirect:/todo/list";   // POST방식으로 처리 후 /todo/list로 이동할 수 있도록한다.
