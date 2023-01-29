@@ -10,13 +10,17 @@
     </Appenders>
 
     <loggers>
-        <logger name="org.springframework" level="INFO" aditivity="false">
+        <logger name="org.springframework" level="INFO" additivity="false">
             <appender-ref ref="console" />
         </logger>
 
-        <logger name="org.zerock" level="INFO" aditivity="false">
+        <logger name="com.example" level="INFO" additivity="false">
             <appender-ref ref="console" />
         </logger>
+
+        <logger name="com.example.todo.mapper" level="TRACE" additivity="false">
+                <appender-ref ref="console" />
+        </logger> <!--com.example.todo.mapper 패키지로그는 TRACE레벨로 기록하도록 추가(SQL실행로그확인)-->
 
         <root level="INFO" additivity="false">
             <AppenderRef ref="console"  />
