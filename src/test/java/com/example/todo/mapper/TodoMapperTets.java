@@ -43,4 +43,11 @@ public class TodoMapperTets {
 
         voList.forEach(vo -> log.info(vo));
     }
+
+    @Test   // Todo 조회 기능 테스트
+    public void testSelectOne() {
+        TodoVO todoVO = todoMapper.selectOne(2L);   // 현재 데이터베이스에 존재하는 번호로 테스트한다.
+
+        log.info(todoVO);
+    }
 }
