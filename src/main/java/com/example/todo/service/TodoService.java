@@ -10,4 +10,7 @@ public interface TodoService {  // Todo 등록작업 (2.Mapper와 Controller 사
 
     // Todo 목록 기능
     List<TodoDTO> getAll();
+
+    // Todo 조회 기능
+    TodoDTO getOne(Long tno);
 }
