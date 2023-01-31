@@ -27,6 +27,9 @@ public class TodoController {
     public void list(Model model) {
 
         log.info("todo list.............");
+
+        // TodoService를 처리하고 Model에 데이터를 담아서 JSP로 전달한다.
+        model.addAttribute("dtoList", todoService.getAll());
     }
 
     /* @RequestMapping(value = "/register", method = RequestMethod.GET)    // method속성을 이용해서 GET/POST방식 구분해서 처리
