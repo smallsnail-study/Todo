@@ -19,4 +19,9 @@
         select * from tbl_todo order by tno desc
     </select>
 
+    <!-- TodoMapper의 selectOne() 실제쿼리 -->
+    <select id="selectOne" resultType="com.example.todo.domain.TodoVO">
+        select * from tbl_todo where tno = #{tno}
+    </select>
+
 </mapper>
