@@ -66,4 +66,13 @@ public class TodoController {
 
         return "redirect:/todo/list";   // POST방식으로 처리 후 /todo/list로 이동할 수 있도록한다.
     }
+
+    @GetMapping("/read")    // Todo 조회 기능
+    public void read(Long tno, Model model) {
+
+        TodoDTO todoDTO = todoService.getOne(tno);
+        log.info(todoDTO);
+
+        model.addAttribute("dto", todoDTO);
+    }
 }
