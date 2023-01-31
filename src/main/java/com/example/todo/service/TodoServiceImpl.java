@@ -3,6 +3,7 @@ package com.example.todo.service;
 import com.example.todo.domain.TodoVO;
 import com.example.todo.dto.TodoDTO;
 import com.example.todo.mapper.TodoMapper;
+import com.sun.tools.javac.comp.Todo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
@@ -43,5 +44,15 @@ public class TodoServiceImpl implements TodoService {
                 .collect(Collectors.toList());  // collect()를 이용해서 List<TodoDTO>로 묶어준다.
 
         return dtoList;
+    }
+
+    @Override   // Todo 조회 기능
+    public TodoDTO getOne(Long tno) {
+
+        TodoVO todoVO = todoMapper.selectOne(tno);
+
+        TodoDTO todoDTO = modelMapper.map(todoVO, TodoDTO.class);
+
+        return todoDTO;
     }
 }
