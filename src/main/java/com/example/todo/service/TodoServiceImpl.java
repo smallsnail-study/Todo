@@ -8,6 +8,9 @@ import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Log4j2
 @Service
 @RequiredArgsConstructor    // 의존성주입 방법 중 생성자를 자동생성
@@ -30,5 +33,15 @@ public class TodoServiceImpl implements TodoService {
 
         // 변환한 TodoVO를 TodoMapper를 통해 insert처리한다.
         todoMapper.insert(todoVO);
+    }
+
+    @Override   // Todo 목록 기능
+    public List<TodoDTO> getAll() {
+        // TodoMapper가 반환하틑 데이터 타입이 List<TodoVO>이기 때문에 List<TodoDTO>로 변환하는 작업이 필요
+        List<TodoDTO> dtoList = todoMapper.selectAll().stream() // stream을 이용해서
+                .map(vo -> modelMapper.map(vo, TodoDTO.class))  // 각 TodoVO는 map()을 통해서 TodoDTO로 바꾸고
+                .collect(Collectors.toList());  // collect()를 이용해서 List<TodoDTO>로 묶어준다.
+
+        return dtoList;
     }
 }
