@@ -67,12 +67,25 @@ public class TodoController {
         return "redirect:/todo/list";   // POST방식으로 처리 후 /todo/list로 이동할 수 있도록한다.
     }
 
-    @GetMapping("/read")    // Todo 조회 기능
+    // 화면처리가 같은 경우 스프링 MVC에는 여러 개의 경로를 배열과 같은 표기법을 이용해서 하나의 @GetMapping으로 처리 가능
+    @GetMapping({"/read","/modify"})    // Todo 조회 기능, 삭제 기능
     public void read(Long tno, Model model) {
 
         TodoDTO todoDTO = todoService.getOne(tno);
         log.info(todoDTO);
 
         model.addAttribute("dto", todoDTO);
+    }
+
+    @PostMapping("/remove")     // POST방식으로 동작하는 삭제기능
+    public String remove(Long tno, RedirectAttributes redirectAttributes) {
+        // tno파라미터가 정상적으로 전달되는지 확인 후, 목록으로 이동하게 한다.
+
+        log.info("-----------remove------------");
+        log.info("tno: " + tno);
+
+        todoService.remove(tno);
+
+        return "redirect:/todo/list";
     }
 }
