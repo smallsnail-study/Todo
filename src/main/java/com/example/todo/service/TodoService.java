@@ -13,4 +13,7 @@ public interface TodoService {  // Todo 등록작업 (2.Mapper와 Controller 사
 
     // Todo 조회 기능
     TodoDTO getOne(Long tno);
+
+    // Todo 삭제 기능
+    void remove(Long tno);
 }
