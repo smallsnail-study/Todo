@@ -76,6 +76,16 @@
                                 <button type="button" class="btn btn-secondary">List</button>
                             </div>
                         </div>
+
+                        <script>
+                            document.querySelector(".btn-primary").addEventListener("click", function (e){
+                                self.location = "/todo/modify?tno="+${dto.tno}
+                            },false)
+
+                            document.querySelector(".btn-secondary").addEventListener("click",function (e){
+                                self.location = "/todo/list";
+                            },false)
+                        </script>
                     </div>
                 </div>
             </div>
