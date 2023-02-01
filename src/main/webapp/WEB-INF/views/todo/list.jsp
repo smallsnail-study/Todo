@@ -46,7 +46,7 @@
                         <h5 class="card-title">Special title treatment</h5>
                         <table class="table">
                             <thead>
-                            <<tr>
+                            <tr>
                                 <th scope="col">Tno</th>
                                 <th scope="col">Title</th>
                                 <th scope="col">Writer</th>
@@ -60,9 +60,9 @@
                                     <th scope="row"><c:out value="${dto.tno}"/></th>
                                     <td><a href="/todo/read?tno=${dto.tno}" class="text-decoration-none"><c:out
                                             value="${dto.title}" /></a> </td>
-                                    <td><c:out value="${dto.writer}"/>></td>
-                                    <td><c:out value="${dto.dueDate}"/>></td>
-                                    <td><c:out value="${dto.finished}"/>></td>
+                                    <td><c:out value="${dto.writer}"/></td>
+                                    <td><c:out value="${dto.dueDate}"/></td>
+                                    <td><c:out value="${dto.finished}"/></td>
                                 </tr>
                             </c:forEach>
                             </tbody>
