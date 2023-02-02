@@ -19,7 +19,7 @@ import javax.validation.Valid;
 @Log4j2
 @RequiredArgsConstructor
 public class TodoController {
-    
+
     // 입력값 검증까지 확인 후 TodoService를 주입
     private final TodoService todoService;
 
@@ -55,20 +55,20 @@ public class TodoController {
             log.info("has errors......");
 
             // 처리과정에서 잘못된 결과는 RedirectAttributes의 addFlashAttribute()를 이용해 전달한다.
-            redirectAttributes.addFlashAttribute("errors",bindingResult.getAllErrors());
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
 
             return "redirect:/todo/register";
         }
 
         log.info(todoDTO);
-        
+
         todoService.register(todoDTO);  // TodoService의 기능을 호출하도록 구성
 
         return "redirect:/todo/list";   // POST방식으로 처리 후 /todo/list로 이동할 수 있도록한다.
     }
 
     // 화면처리가 같은 경우 스프링 MVC에는 여러 개의 경로를 배열과 같은 표기법을 이용해서 하나의 @GetMapping으로 처리 가능
-    @GetMapping({"/read","/modify"})    // Todo 조회 기능, 삭제 기능
+    @GetMapping({"/read", "/modify"})    // Todo 조회 기능, 삭제 기능
     public void read(Long tno, Model model) {
 
         TodoDTO todoDTO = todoService.getOne(tno);
@@ -88,4 +88,27 @@ public class TodoController {
 
         return "redirect:/todo/list";
     }
+
+    @PostMapping("/modify")     // POST방식으로 동작하는 수정기능
+    public String modify(@Valid TodoDTO todoDTO,    // @Valid를 이용해서 TodoDTO의 내용들을 검증한다.
+                         BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes){
+
+        if (bindingResult.hasErrors()) {    // 문제가 있는 경우 다시 /todo/modify로 리다이렉트시킨다.
+            log.info("has errors");
+            // errors라는 이름으로 BindingResult의 모든 에러들을 묶어서 전달한다.
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+
+            // modify페이지로 다시 이동할 때 tno파라미터가 필요하므로 RedirectAttributes의 addAttribute를 이용한다.
+            redirectAttributes.addAttribute("tno", todoDTO.getTno());
+            return "redirect:/todo/modify";
+        }
+
+        log.info(todoDTO);
+
+        todoService.modify(todoDTO);
+
+        return "redirect:/todo/list";
+    }
+
 }
