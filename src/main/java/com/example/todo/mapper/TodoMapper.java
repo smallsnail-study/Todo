@@ -19,4 +19,7 @@ public interface TodoMapper { //MyBatis와 스프링을 연동(2. Mapper인터�
 
     // Todo 삭제 기능
     void delete(Long tno);
+
+    // Todo 수정 기능
+    void update(TodoVO todoVO);
 }
