@@ -3,7 +3,6 @@ package com.example.todo.service;
 import com.example.todo.domain.TodoVO;
 import com.example.todo.dto.TodoDTO;
 import com.example.todo.mapper.TodoMapper;
-import com.sun.tools.javac.comp.Todo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
@@ -59,5 +58,14 @@ public class TodoServiceImpl implements TodoService {
     @Override   // Todo 삭제 기능
     public void remove(Long tno) {
         todoMapper.delete(tno);
+    }
+
+    @Override   // Todo 수정 기능
+    public void modify(TodoDTO todoDTO) {
+        // 파라미터로 전달되는 TodoDTO를 TodoVO로 변환하고
+        TodoVO todoVO = modelMapper.map(todoDTO, TodoVO.class);
+
+        // TodoMapper의 update()를 호출
+        todoMapper.update(todoVO);
     }
 }
