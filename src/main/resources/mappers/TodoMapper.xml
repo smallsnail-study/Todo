@@ -29,4 +29,8 @@
         delete from tbl_todo where tno = #{tno}
     </delete>
 
+    <!--TodoMapper의 update()의 실제쿼리-->
+    <update id="update">
+        update tbl_todo set title=#{title}, dueDate=#{dueDate}, finished=#{finished} where tno=#{tno}
+    </update>
 </mapper>
