@@ -1,6 +1,7 @@
 package com.example.todo.mapper;
 
 import com.example.todo.domain.TodoVO;
+import com.example.todo.dto.PageRequestDTO;
 
 import java.util.List;
 
@@ -22,4 +23,10 @@ public interface TodoMapper { //MyBatis와 스프링을 연동(2. Mapper인터�
 
     // Todo 수정 기능
     void update(TodoVO todoVO);
+
+    // Todo 페이징 처리된 목록 기능 (PageRequestDTO를 파라미터로 처리)
+    List<TodoVO> selectList(PageRequestDTO pageRequestDTO);
+
+    // Todo 전체 데이터의 수(페이지 번호 구성목적)
+    int getCount(PageRequestDTO pageRequestDTO);
 }
