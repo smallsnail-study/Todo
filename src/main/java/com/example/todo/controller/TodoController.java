@@ -71,7 +71,8 @@ public class TodoController {
 
     // 화면처리가 같은 경우 스프링 MVC에는 여러 개의 경로를 배열과 같은 표기법을 이용해서 하나의 @GetMapping으로 처리 가능
     @GetMapping({"/read", "/modify"})    // Todo 조회 기능, 삭제 기능
-    public void read(Long tno, Model model) {
+    public void read(Long tno, PageRequestDTO pageRequestDTO,Model model) {
+    // 조회화면에서 목록화면 이동 시 PageRequestDTO를 이용하도록 파라미터 추가
 
         TodoDTO todoDTO = todoService.getOne(tno);
         log.info(todoDTO);
