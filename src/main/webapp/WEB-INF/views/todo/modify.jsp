@@ -118,7 +118,7 @@
                             e.preventDefault()
                             e.stopPropagation()
 
-                            self.location = "/todo/list";
+                            self.location = `/todo/list?${pageRequestDTO.link}`
                         },false);
                     </script>
                 </div>
