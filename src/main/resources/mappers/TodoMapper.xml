@@ -33,4 +33,14 @@
     <update id="update">
         update tbl_todo set title=#{title}, dueDate=#{dueDate}, finished=#{finished} where tno=#{tno}
     </update>
+
+    <!--TodoMapper의 페이징처리된 목록 selectList()의 실제쿼리-->
+    <select id="selectList" resultType="com.example.todo.domain.TodoVO">
+        select * from tbl_todo order by tno desc limit #{skip}, #{size}
+    </select>
+
+    <!--TodoMapper의 전체 데이터 수 getCont()의 실제쿼리-->
+    <select id="getCount" resultType="int">
+        select count(tno) from tbl_todo
+    </select>
 </mapper>
