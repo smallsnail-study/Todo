@@ -1,5 +1,6 @@
 package com.example.todo.controller;
 
+import com.example.todo.dto.PageRequestDTO;
 import com.example.todo.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -23,6 +24,7 @@ public class TodoController {
     // 입력값 검증까지 확인 후 TodoService를 주입
     private final TodoService todoService;
 
+    /*
     @RequestMapping("/list")    // 최종경로 /todo/list
     public void list(Model model) {
 
@@ -31,7 +33,7 @@ public class TodoController {
         // TodoService를 처리하고 Model에 데이터를 담아서 JSP로 전달한다.
         model.addAttribute("dtoList", todoService.getAll());
     }
-
+    */
     /* @RequestMapping(value = "/register", method = RequestMethod.GET)    // method속성을 이용해서 GET/POST방식 구분해서 처리
     public void register() {
         log.info("todo register..........");
@@ -92,7 +94,7 @@ public class TodoController {
     @PostMapping("/modify")     // POST방식으로 동작하는 수정기능
     public String modify(@Valid TodoDTO todoDTO,    // @Valid를 이용해서 TodoDTO의 내용들을 검증한다.
                          BindingResult bindingResult,
-                         RedirectAttributes redirectAttributes){
+                         RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {    // 문제가 있는 경우 다시 /todo/modify로 리다이렉트시킨다.
             log.info("has errors");
@@ -109,6 +111,21 @@ public class TodoController {
         todoService.modify(todoDTO);
 
         return "redirect:/todo/list";
+    }
+
+    @GetMapping("/list")    // 페이징을 적용한 Todo 목록
+    public void List(@Valid PageRequestDTO pageRequestDTO, BindingResult bindingResult, Model model) {
+//  PageRequestDTO를 파라미터로 처리하고, Model에 PageResponseDTO의 데이터를 담는다.
+
+        log.info(pageRequestDTO);
+
+        // @Valid를 이용해서 잘못된 파라미터 값들이 들어오는 경우 page는 1, size는 10으로 고정된 값을 처리하도록 구성
+        if (bindingResult.hasErrors()) {
+            pageRequestDTO = PageRequestDTO.builder().build();
+        }
+
+        // model에 responseDTO라는 이름으로 PageResponseDTO를 담아준다.
+        model.addAttribute("responseDTO", todoService.getList(pageRequestDTO));
     }
 
 }
