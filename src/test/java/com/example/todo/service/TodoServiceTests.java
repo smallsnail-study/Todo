@@ -1,6 +1,10 @@
 package com.example.todo.service;
 
+import com.example.todo.dto.PageRequestDTO;
+import com.example.todo.dto.PageResponseDTO;
 import com.example.todo.dto.TodoDTO;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -8,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.sql.Connection;
 import java.time.LocalDate;
 
 @Log4j2
@@ -29,5 +34,17 @@ public class TodoServiceTests {
                 .build();
 
         todoService.register(todoDTO);
+    }
+
+    @Test   // 페이징을 적용한 Todo 목록 기능 테스트
+    public void testPagint() {
+
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(1).size(10).build();
+
+        PageResponseDTO<TodoDTO> responseDTO = todoService.getList(pageRequestDTO);
+
+        log.info(responseDTO);
+
+        responseDTO.getDtoList().stream().forEach(todoDTO -> log.info(todoDTO));
     }
 }
