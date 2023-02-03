@@ -1,6 +1,8 @@
 package com.example.todo.service;
 
 import com.example.todo.domain.TodoVO;
+import com.example.todo.dto.PageRequestDTO;
+import com.example.todo.dto.PageResponseDTO;
 import com.example.todo.dto.TodoDTO;
 import com.example.todo.mapper.TodoMapper;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +37,7 @@ public class TodoServiceImpl implements TodoService {
         todoMapper.insert(todoVO);
     }
 
+    /*
     @Override   // Todo 목록 기능
     public List<TodoDTO> getAll() {
         // TodoMapper가 반환하틑 데이터 타입이 List<TodoVO>이기 때문에 List<TodoDTO>로 변환하는 작업이 필요
@@ -44,7 +47,7 @@ public class TodoServiceImpl implements TodoService {
 
         return dtoList;
     }
-
+    */
     @Override   // Todo 조회 기능
     public TodoDTO getOne(Long tno) {
 
@@ -67,5 +70,24 @@ public class TodoServiceImpl implements TodoService {
 
         // TodoMapper의 update()를 호출
         todoMapper.update(todoVO);
+    }
+
+    @Override   // 페이징을 적용한 Todo 목록 기능
+    public PageResponseDTO<TodoDTO> getList(PageRequestDTO pageRequestDTO) {
+
+        List<TodoVO> voList = todoMapper.selectList(pageRequestDTO);
+        List<TodoDTO> dtoList = voList.stream()
+                .map(vo -> modelMapper.map(vo, TodoDTO.class))
+                .collect(Collectors.toList());
+
+        int total = todoMapper.getCount(pageRequestDTO);
+
+        PageResponseDTO<TodoDTO> pageResponseDTO = PageResponseDTO.<TodoDTO>withAll()
+                .dtoList(dtoList)
+                .total(total)
+                .pageRequestDTO(pageRequestDTO)
+                .build();
+
+        return pageResponseDTO;
     }
 }
