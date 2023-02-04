@@ -81,7 +81,7 @@ public class TodoController {
     }
 
     @PostMapping("/remove")     // POST방식으로 동작하는 삭제기능
-    public String remove(Long tno, RedirectAttributes redirectAttributes) {
+    public String remove(Long tno, PageRequestDTO pageRequestDTO,RedirectAttributes redirectAttributes) {
         // tno파라미터가 정상적으로 전달되는지 확인 후, 목록으로 이동하게 한다.
 
         log.info("-----------remove------------");
@@ -89,16 +89,21 @@ public class TodoController {
 
         todoService.remove(tno);
 
+        // 삭제 처리 시 PageRequestDTO를 이용해서 1페이지로 이동,size정보를 활용한다.
+        redirectAttributes.addAttribute("page", 1);
+        redirectAttributes.addAttribute("size", pageRequestDTO.getSize());
+
         return "redirect:/todo/list";
     }
 
     @PostMapping("/modify")     // POST방식으로 동작하는 수정기능
     public String modify(@Valid TodoDTO todoDTO,    // @Valid를 이용해서 TodoDTO의 내용들을 검증한다.
+                         PageRequestDTO pageRequestDTO,
                          BindingResult bindingResult,
                          RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {    // 문제가 있는 경우 다시 /todo/modify로 리다이렉트시킨다.
-            log.info("has errors");
+            log.info("has errors.......");
             // errors라는 이름으로 BindingResult의 모든 에러들을 묶어서 전달한다.
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
 
@@ -110,6 +115,10 @@ public class TodoController {
         log.info(todoDTO);
 
         todoService.modify(todoDTO);
+
+        // 수정 처리 시 PageRequestDTO를 이용해서 기존 목록페이지로 이동,size정보를 활용한다.
+        redirectAttributes.addAttribute("page", pageRequestDTO.getPage());
+        redirectAttributes.addFlashAttribute("size", pageRequestDTO.getSize());
 
         return "redirect:/todo/list";
     }
