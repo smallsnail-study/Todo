@@ -39,7 +39,7 @@
         select * from tbl_todo order by tno desc limit #{skip}, #{size}
     </select>
 
-    <!--TodoMapper의 전체 데이터 수 getCont()의 실제쿼리-->
+    <!--TodoMapper의 전체 데이터 수 getCount()의 실제쿼리-->
     <select id="getCount" resultType="int">
         select count(tno) from tbl_todo
     </select>
