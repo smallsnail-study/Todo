@@ -64,4 +64,25 @@ public class TodoMapperTets {
 
         voList.forEach(vo -> log.info(vo));
     }
+
+    @Test
+    public void testSelectSearch() {
+
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+                .page(1)
+                .size(10)
+                .types(new String[]{"t","w"})
+                .keyword("스프링")
+                //.finished(true)
+                .from(LocalDate.of(2023,02,01))
+                .to(LocalDate.of(2023,02,28))
+                .build();
+
+        List<TodoVO> voList = todoMapper.selectList(pageRequestDTO);
+
+        // forEach는 반복처리
+        voList.forEach(vo -> log.info(vo));
+
+        log.info(todoMapper.getCount(pageRequestDTO));
+    }
 }
