@@ -9,6 +9,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
 import java.time.LocalDate;
+import java.util.Arrays;
 
 @Builder
 @Data
@@ -50,5 +51,14 @@ public class PageRequestDTO {
     private boolean finished;   // 완료여부
     private LocalDate from;     // 특정기간 지정
     private LocalDate to;       // 특정가간 지정
+
+    // 화면에서 검색 후 검색부분 초기화 방지 설정를 위한 메소드(title, writer)
+    public boolean checkType(String type) {
+
+        if (types == null || types.length == 0) {
+            return false;
+        }
+        return Arrays.stream(types).anyMatch(type::equals);
+    }
 
 }
