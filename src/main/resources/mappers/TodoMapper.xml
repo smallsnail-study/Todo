@@ -34,13 +34,47 @@
         update tbl_todo set title=#{title}, dueDate=#{dueDate}, finished=#{finished} where tno=#{tno}
     </update>
 
+    <!--동적쿼리부분을 sql로 분리-->
+    <!--types에 따른 동적쿼리를 만들기 위해 foreach,if,where을 넣어서 만든다-->
+    <sql id="search">
+        <where>
+            <if test="types != null and types.length > 0">
+                <foreach collection="types" item="type" open="(" close=")" separator=" OR ">
+                    <if test="type == 't'.toString()">
+                        title like concat('%', #{keyword}, '%')
+                    </if>
+                    <if test="type == 'w'.toString()">
+                        writer like concat('%', #{keyword}, '%')
+                    </if>
+                </foreach>
+            </if>
+
+           <if test="finished">
+               <trim prefix="and"> <!--상황에 따라 and 추가-->
+                   finished = 1
+               </trim>
+           </if>
+
+          <if test="from != null and to != null">
+              <trim prefix="and">
+                  dueDate between #{from} and #{to}
+              </trim>
+          </if>
+        </where>
+    </sql>
+
     <!--TodoMapper의 페이징처리된 목록 selectList()의 실제쿼리-->
     <select id="selectList" resultType="com.example.todo.domain.TodoVO">
-        select * from tbl_todo order by tno desc limit #{skip}, #{size}
+        select * from tbl_todo
+
+        <include refid="search"></include>
+
+        order by tno desc limit #{skip}, #{size}
     </select>
 
     <!--TodoMapper의 전체 데이터 수 getCount()의 실제쿼리-->
     <select id="getCount" resultType="int">
         select count(tno) from tbl_todo
+        <include refid="search"></include>
     </select>
 </mapper>
