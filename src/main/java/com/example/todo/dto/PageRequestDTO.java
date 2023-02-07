@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.util.Arrays;
 
@@ -37,13 +39,41 @@ public class PageRequestDTO {
 
     // Todo 조회페이지에서 다시 목록으로 이동 할 때 기존 페이지를 볼 수 있도록 하기 위한 페이지 이동 정보(필요한 링크 생성 시 사용)
     public String getLink() {   // GET방식으로 페이지 이동에 필요한 링크 생성
-        if (link == null) {
+        // if (link == null) {
             StringBuilder builder = new StringBuilder();
             builder.append("page=" + this.page);
             builder.append("&size=" + this.size);
-            link = builder.toString();
-        }
-        return link;
+          // link = builder.toString();
+
+            // 조회,수정화면에서도 검색/필터링조건들을 유지하기 위한 if문들
+            if (finished){
+                builder.append("&finished=on");
+            }
+
+            if (types != null && types.length > 0) {
+                for (int i = 0; i < types.length; i++) {
+                    builder.append("&types=" + types[i]);
+                }
+            }
+
+            if (keyword != null) {
+                try {   // keword에 한글이 입력된 경우 URLEncoder를 이용해서 링크로 처리할 수 있도록 설정
+                    builder.append("&keyword=" + URLEncoder.encode(keyword, "UTF-8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (from != null) {
+                builder.append("&from=" + from.toString());
+            }
+
+            if (to != null) {
+                builder.append("&to=" + to.toString());
+            }
+        //}
+        //return link;
+        return builder.toString();
     }
 
     private String[] types;     // 검색종류
