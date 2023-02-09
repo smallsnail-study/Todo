@@ -116,11 +116,16 @@ public class TodoController {
 
         todoService.modify(todoDTO);
 
-        // 수정 처리 시 PageRequestDTO를 이용해서 기존 목록페이지로 이동,size정보를 활용한다.
+        /* 수정 처리 시 PageRequestDTO를 이용해서 기존 목록페이지로 이동,size정보를 활용한다.
         redirectAttributes.addAttribute("page", pageRequestDTO.getPage());
         redirectAttributes.addFlashAttribute("size", pageRequestDTO.getSize());
-
         return "redirect:/todo/list";
+        */
+
+        // 수정된 내용이 검색/필터링 조건에 맞지 않을 수 있으므로 수정 후 조회페이지로 이동하게 하고, 검색/필터링조건은 없앤다.
+        redirectAttributes.addAttribute("tno", todoDTO.getTno());
+
+        return "redirect:/todo/read";
     }
 
     @GetMapping("/list")    // 페이징을 적용한 Todo 목록
